@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import rocket.app.MainApp;
 import rocketCode.Action;
@@ -15,6 +17,14 @@ public class MortgageController {
 
 	@FXML TextField txtCreditScore;
 	@FXML TextField txtMortgageAmt;
+	@FXML TextField txtIncome;
+	@FXML TextField txtExpenses;
+	@FXML TextField txtHouseCost;
+	@FXML ComboBox cmbTerm;
+	@FXML Label lblMortgagePayment;
+	@FXML Label lblCreditScore;
+	@FXML Label lblTerm;
+	@FXML Label lblIncome;
 	
 	private TextField txtNew;
 	
@@ -42,11 +52,25 @@ public class MortgageController {
 	
 	public void HandleLoanRequestDetails(LoanRequest lRequest)
 	{
-		//	TODO - RocketClient.HandleLoanRequestDetails
-		//			lRequest is an instance of LoanRequest.
-		//			after it's returned back from the server, the payment (dPayment)
-		//			should be calculated.
-		//			Display dPayment on the form, rounded to two decimal places
 		
-	}
+		double PITI1 = lRequest.getdIncome() * 0.28;
+		double PITI2 = lRequest.getdIncome() * 0.36 - lRequest.getdExpense();
+		if(PITI1>=PITI2){
+			if(PITI2>=lRequest.getdPayment()){;
+				txtMortgageAmt.setText("The MortgageAmt will Be: $ %,.2f");
+			}
+			else if (PITI2<lRequest.getdPayment()){
+				txtMortgageAmt.setText("House Cost too High");
+			}
+		}
+		else if (PITI1<PITI2){
+			if(PITI1>=lRequest.getdPayment()){
+				txtMortgageAmt.setText("The MortgageAmt will Be: $ %,.2f");
+			}
+			else if (PITI1<lRequest.getdPayment()){
+				txtMortgageAmt.setText("House Cost too High");
+			}
+		}
+		}
+		
 }
